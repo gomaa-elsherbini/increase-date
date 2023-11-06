@@ -5,6 +5,7 @@ using namespace std;
 
 
 enum enInterval{OneDay, TenDays, OneWeek, TenWeeks, OneMonth, FiveMonths, OneYear, TenYears, OneDecade, TenDecades, OneCentury, OneMelinium};
+
 struct stDate
 {
     short day;
@@ -101,69 +102,160 @@ stDate increaseDateByOneDay(stDate Date)
 
 stDate increaseDateByXDays( stDate Date, short numberDays)
 {
-    short days = 0;
-    while (days < numberDays)
+    for (short day = 1; day <= numberDays; day++)
     {
         Date = increaseDateByOneDay(Date);
-        days++;
     }
     return Date;
 }
 
+stDate increaseDateByOneWeek( stDate Date)
+{
+    return increaseDateByXDays(Date, 7);
+}
+
 stDate increaseDateByXWeeks( stDate Date, short numberWeeks)
 {
-    short weeks = 0;
-    while (weeks < numberWeeks)
+    for(short week=1; week<= numberWeeks; week++)
     {
-        Date = increaseDateByXDays(Date, 7);
-        weeks++;
+        Date = increaseDateByOneWeek(Date);
     }
+    return Date;
+}
+
+stDate increaseDateByOneMonth(stDate Date)
+{
+    if (Date.month == 12)
+    {
+        Date.month = 1;
+        Date.year++;
+    }
+    else
+        Date.month++;
+
+    short monthDays = numberOfDaysInMonth(Date.year, Date.month);
+
+    Date.day = (Date.day > monthDays) ? monthDays : Date.day;
+         
     return Date;
 }
 
 stDate increaseDateByXMonths(stDate Date, short numberMonths)
 {
-    short monthDays = 0;
-    short months = 1;
-    while (months <= numberMonths)
+    for (short month = 1; month <= numberMonths; month++)
     {
-        Date = increaseDateByXDays(Date, numberOfDaysInMonth(Date.year, Date.month));
-        months++;
+        Date = increaseDateByOneMonth(Date);
     }
     return Date;
 }
 
-stDate increaseDateByXYears(stDate Date, short numberYears)
+stDate increaseDateByOneYear(stDate Date)
 {
-    short years = 1;
-    while (years <= numberYears)
+    Date.year++;
+    return Date;
+}
+
+stDate increaseDateByXYears(stDate Date, short numberOfYears)
+{
+    /*stDate finalDate;
+    short year1 = Date.year;
+    int numberOfDays = 0;
+
+    for (int i = 1; i <= numberOfYears; i++)
+        numberOfDays += numberOfDaysInYear(Date.year++);
+
+    for (short i = 1; i < Date.month; i++)
+        numberOfDays += numberOfDaysInMonth(Date.year, i);
+
+    numberOfDays += Date.day;
+
+    finalDate = dateForNumberOfDays(year1, numberOfDays);
+
+    return finalDate;*/
+    for (short year = 1; year <= numberOfYears; year++)
     {
-        Date = increaseDateByXDays(Date, numberOfDaysInYear(Date.year+1));
-        years++;
+        Date = increaseDateByOneYear(Date);
     }
+    return Date;
+}
+
+stDate increaseDateByXYearsFaster(stDate Date, short numberOfYears)
+{
+    Date.year += numberOfYears;
+    return Date;
+}
+
+stDate dateForNumberOfDays(short year, int numberOfDays)
+{
+    stDate Date;
+    short month = 1;
+    short monthDays = 0;
+
+    do
+    {
+        monthDays = numberOfDaysInMonth(year, month);
+        numberOfDays -= monthDays;
+        month++;
+
+        if (month == 12)
+        {
+            year++;
+            monthDays = numberOfDaysInMonth(year, month);
+            numberOfDays -= monthDays;
+            month = 1;
+        }
+        else
+            monthDays = numberOfDaysInMonth(year, month);
+
+    } while (numberOfDays > monthDays);
+
+    Date.day = numberOfDays;
+    Date.month = month;
+    Date.year = year;
+
+    return Date;
+}
+
+stDate increaseDateByOneDecade(stDate Date)
+{
+    Date.year += 10;
     return Date;
 }
 
 stDate increaseDateByXDecades(stDate Date, short numberDecades)
 {
-    short decades = 1;
-    while (decades <= numberDecades)
-    {
-        Date = increaseDateByXYears(Date, 10);
-        decades++;
-    }
+    for(short decade=1; decade<= numberDecades; decade++)
+        Date = increaseDateByOneDecade(Date);
+    
+    return Date;
+}
+
+stDate increaseDateByXDecadesFaster(stDate Date, short numberOfDecades)
+{
+    /*stDate Date2;
+    short numberOfYears = numberOfDecades * 10;
+    Date2= increaseDateByXYearsFaster(Date, numberOfYears);
+
+    return Date2;*/
+
+    Date.year += numberOfDecades * 10;
     return Date;
 }
 
 stDate increaseDateByOneCentury(stDate Date)
 {
-    return increaseDateByXDecades(Date, 10);
+    //return increaseDateByXDecades(Date, 10);
+    Date.year += 100;
+    return Date;
 }
 
 stDate increaseDateByOneMilinium(stDate Date)
 {
-    for(int i=1; i<=10; i++)
+    /*for(int i=1; i<=10; i++)
         Date = increaseDateByOneCentury(Date);
+    return Date;*/
+
+    Date.year += 1000;
     return Date;
 }
 
@@ -237,39 +329,44 @@ int main()
     cout << "\n";
 
 
-    Date2 = increaseDateByXDays(Date1, 1);
+   /* Date2 = increaseDateByXDays(Date1, 1);
     cout << "01- Adding One day is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXDays(Date2, 10);
     cout << "02- Adding 10 days is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
-    Date2 = increaseDateByXWeeks(Date2, 1);
+    Date2 = increaseDateByOneWeek(Date2);
     cout << "03- Adding One week is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXWeeks(Date2, 10);
-    cout << "04- Adding Ten weeks is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
+    cout << "04- Adding Ten weeks is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;*/
 
-    Date2 = increaseDateByXMonths(Date2, 1);
+    Date2 = increaseDateByOneMonth(Date1);
     cout << "05- Adding One Month is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXMonths(Date2, 5);
     cout << "06- Adding Five Months is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
-    Date2 = increaseDateByXYears(Date2, 1);
+    Date2 = increaseDateByOneYear(Date2);
     cout << "07- Adding One Year is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXYears(Date2, 10);
     cout << "08- Adding Ten Years is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
+    
+    Date2= increaseDateByXYearsFaster(Date2, 10);
+    cout << "08- Adding Ten Years (faster) is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
-    Date2 = increaseDateByXDecades(Date2, 1);
+    Date2 = increaseDateByOneDecade(Date2);
     cout << "10- Adding One Decade is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXDecades(Date2, 10);
     cout << "11- Adding Ten Decades is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
+    Date2 = increaseDateByXDecadesFaster(Date2, 10);
+    cout << "09- Adding Ten Decades (faster) is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
+
     Date2 = increaseDateByOneCentury(Date2);
     cout << "13- Adding One Century is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
-
 
     Date2 = increaseDateByOneMilinium(Date2);
     cout << "14- Adding One Melinium is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
