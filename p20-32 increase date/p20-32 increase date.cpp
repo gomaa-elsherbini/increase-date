@@ -326,10 +326,10 @@ int main()
 
     cout << "\nPlease Enter your date1\n\n";
     Date1 = readStDate();
-    cout << "\n";
+    cout << "\n Date After \n";
 
 
-   /* Date2 = increaseDateByXDays(Date1, 1);
+    Date2 = increaseDateByXDays(Date1, 1);
     cout << "01- Adding One day is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXDays(Date2, 10);
@@ -339,7 +339,7 @@ int main()
     cout << "03- Adding One week is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByXWeeks(Date2, 10);
-    cout << "04- Adding Ten weeks is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;*/
+    cout << "04- Adding Ten weeks is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
 
     Date2 = increaseDateByOneMonth(Date1);
     cout << "05- Adding One Month is: " << Date2.day << "/" << Date2.month << "/" << Date2.year << endl;
